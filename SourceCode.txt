@@ -1,0 +1,78 @@
+    class Program
+    {
+        enum EnhancementState
+        {
+            Plus10,
+            Plus11,
+            Plus12
+        }
+
+        static void Main(string[] args)
+        {
+            int tryCount = 1000000;
+            ulong oreCount = 0;
+            ulong crystalCount = 0;
+            ulong hammerCount = 0;
+            ulong scrollCount = 0;
+            EnhancementState state;
+            var random = new Random();
+
+            for (int i = 0; i < tryCount; i++)
+            {
+                state = EnhancementState.Plus11;
+                while (state != EnhancementState.Plus12)
+                {
+                    double randomValue = random.NextDouble();
+                    if (state == EnhancementState.Plus10)
+                    {
+                        if (randomValue < 0.007)
+                        {
+                            state = EnhancementState.Plus11;
+                            oreCount++;
+                        }
+                        else if (randomValue < 0.36)
+                        {
+                            oreCount++;
+                            scrollCount++;
+                        }
+                        else
+                        {
+                            oreCount++;
+                        }
+                    }
+                    else if (state == EnhancementState.Plus11)
+                    {
+                        if (randomValue < 0.02)
+                        {
+                            state = EnhancementState.Plus12;
+                            crystalCount++;
+                            hammerCount++;
+                        }
+                        else if (randomValue < 0.27)
+                        {
+                            crystalCount++;
+                            hammerCount++;
+                            scrollCount++;
+                        }
+                        else if (randomValue < 0.54)
+                        {
+                            state = EnhancementState.Plus10;
+                            crystalCount++;
+                            hammerCount++;
+                        }
+                        else
+                        {
+                            crystalCount++;
+                            hammerCount++;
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine("필요한 플루오르 스톤의 기댓값은 {0}개입니다.", (double)oreCount / tryCount);
+            Console.WriteLine("필요한 플루오르 수정의 기댓값은 {0}개입니다.", (double)crystalCount / tryCount);
+            Console.WriteLine("필요한 엘의 해머의 기댓값은 {0}개입니다.", (double)hammerCount / tryCount);
+            Console.WriteLine("필요한 복원의 주문서의 기댓값은 {0}개입니다.", (double)scrollCount / tryCount);
+            Console.ReadLine();
+        }
+    }
